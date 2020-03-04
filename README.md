@@ -1,5 +1,5 @@
-# CeneoScrapper
-# Faza 1 -pobranie pojedynczej opinii
+# CeneoScraper11S
+# Etap 1 - pobranie pojedynczeej opinii 
 - opinia
 - identyfikator
 - autor
