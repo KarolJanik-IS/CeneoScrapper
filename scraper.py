@@ -10,20 +10,42 @@ page_tree = BeautifulSoup(page_response.text, 'html.parser')
 #wybranie z kodu strony fragmentów odpowiadających poszczególnym opiniom
 opinions = page_tree.select("li.review-box")
 # print(type(opinions))
-opinion = opinions[0]
-opinion_id = opinion["data-entry-id"]
-# print(opinion_id)
-author = opinion.select('div.reviewer-name-line').pop().string
-recomendation = opinion.select('div.product-review-summary > em').pop().string
-stars = opinion.select('span.review-score.count')
-purchased = opinion.select('div.product-review-pz').pop().string
-useful =  opinion.select('button.vote-yes').pop()["data-total-vote"]
-useless =  opinion.select('button.vote-no').pop()["data-total-vote"]
-content = opinion.select('p.product-review-body').pop().get_text()
-# useful = useful_button["data-total-vote"]
-#useful = opinion.select('button.vote-yes')
-print(useful)
-print(useless)
+for opinion in opinions:
+    opinion_id = opinion["data-entry-id"]
+    # print(opinion_id)
+    author = opinion.select('div.reviewer-name-line').pop().string.strip()
+    try:
+        recomendation = opinion.select('div.product-review-summary > em').pop().string.strip()
+    except IndexError:
+        recomendation = None
+    stars = opinion.select('span.review-score.count')
+    try:
+        purchased = opinion.select('div.product-review-pz').pop().string
+    except IndexError:
+        purchased = None
+    useful =  opinion.select('button.vote-yes').pop()["data-total-vote"]
+    useless =  opinion.select('button.vote-no').pop()["data-total-vote"]
+    content = opinion.select('p.product-review-body').pop().get_text()
+    # useful = useful_button["data-total-vote"]
+    #useful = opinion.select('button.vote-yes')
+    print(useful)
+    print(useless)
+    try:
+        cons = opinion.select('div.cons-cell > ul').pop().get_text()
+    except IndexError:
+        cons = None
+    try:
+        pros = opinion.select('div.pros-cell > ul').pop().get_text()
+    except IndexError:
+        pros = None
+    date = opinion.select('span.review-time > time')
+    review_date = date.pop(0)["datetime"]
+    try:
+        purchase_date = date.pop(0)["datetime"]
+    except IndexError:
+        purchase_date = None
+    # print(review_date, purchase_date)
+    print(opinion_id, author, recomendation, stars, content, pros, cons, useful, useless, purchased, purchase_date, review_date)
 # print(opinion)
 #ekstrakcja składowych dla pierwszej opinii z listy
 
