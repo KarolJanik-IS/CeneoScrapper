@@ -18,3 +18,6 @@
 ## Etap 3 - pobranie wszystkich opinii o pojedyńczym produkcie
 - sposób przechodzenia po kolejnych stronach z opiniami
 - eksport opinii do pliku (.csv lub .xlsx lub .json)
+## Etap 4 - 
+- eliminacja powtarzających się fragmentów kodu
+- transformacja danych (typ danych, czyszczenie danych)
