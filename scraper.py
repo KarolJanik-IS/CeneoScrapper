@@ -4,6 +4,7 @@ import pprint
 import json
 from bs4 import BeautifulSoup
 
+
 #funkcja ekstrakcja składowych opinii
 def extract_feature(opinion, selector, attribute = None):
     try:
@@ -24,9 +25,17 @@ selectors = {
             "useful":['button.vote-yes',"data-total-vote"],
             "useless":['button.vote-no',"data-total-vote"],
             "purchased":['div.product-review-pz'],
-            "purchase_date":['span.review-time > time:nth-of-type(2)',"datetime"],
-            "review_date":['span.review-time > time:nth-of-type(1)',"datetime"]
+            "purchase_date":['span.review-time > time:nth-of-type(1)',"datetime"],
+            "review_date":['span.review-time > time:nth-of-type(2)',"datetime"]
         }
+
+def remove_whitespaces(text):
+    try:
+        for char in ["\n", "\r"]:
+            text = text.replace(char, ". ")
+        return text
+    except:
+            pass
 #adres URL strony z opiniami
 url_prefix = "https://www.ceneo.pl"
 product_id = input("Podaj kod produktu: ")
@@ -45,6 +54,17 @@ while url is not None:
                     for key, args in selectors.items()}
         features["opinion_id"] = int(opinion["data-entry-id"])
         features["purchased"] = True if features["purchased"] == "Opinia potwierdzona zakupem" else False
+        features["useful"] = int(features["useful"])
+        features["useless"] = int(features["useless"])
+        features["content"] = remove_whitespaces(features["content"])
+        try:
+            features["pros"] = remove_whitespaces(features["pros"])
+        except:
+            pass
+        try:
+            features["cons"] = remove_whitespaces(features["cons"])
+        except:
+            pass
         opinions_list.append(features)
 
     try:
@@ -53,7 +73,7 @@ while url is not None:
         url = None
     print(url)
 # filename = product_id+".json"
-with open(product_id+".json",'w',encoding="utf-8") as fp:
+with open("opinions/"+product_id+".json",'w',encoding="utf-8") as fp:
     json.dump(opinions_list,fp,ensure_ascii=False, separators=(",",": "),indent=4)
 # print(opinions_list)
 # for opinion in opinions_list:
