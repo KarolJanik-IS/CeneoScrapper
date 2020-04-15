@@ -17,8 +17,8 @@ def extract_feature(opinion, selector, attribute = None):
 #lista składowych opinii wraz z selektorami i atrybutami
 selectors = {
             "author":['div.reviewer-name-line'],
-            "recomendation":['div.product-review-summary > em'],
-            "stars":['span.review-score.count'],
+            "recommendation":['div.product-review-summary > em'],
+            "stars":['span.review-score-count'],
             "content":['p.product-review-body'],
             "pros":['div.pros-cell > ul'],
             "cons":['div.cons-cell > ul'],
@@ -34,8 +34,8 @@ def remove_whitespaces(text):
         for char in ["\n", "\r"]:
             text = text.replace(char, ". ")
         return text
-    except:
-            pass
+    except AttributeError:
+        pass
 #adres URL strony z opiniami
 url_prefix = "https://www.ceneo.pl"
 product_id = input("Podaj kod produktu: ")
@@ -65,6 +65,7 @@ while url is not None:
             features["cons"] = remove_whitespaces(features["cons"])
         except:
             pass
+        
         opinions_list.append(features)
 
     try:
@@ -73,8 +74,8 @@ while url is not None:
         url = None
     print(url)
 # filename = product_id+".json"
-with open("opinions/"+product_id+".json",'w',encoding="utf-8") as fp:
-    json.dump(opinions_list,fp,ensure_ascii=False, separators=(",",": "),indent=4)
+with open("opinions/"+product_id+".json", 'w', encoding="UTF-8") as fp:
+    json.dump(opinions_list, fp, ensure_ascii=False, separators=(",",": "), indent=4 )
 # print(opinions_list)
 # for opinion in opinions_list:
 #     # pprint.pformat(opinion)
