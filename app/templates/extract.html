@@ -1,0 +1,9 @@
+{% extends 'layout.html' %}
+{% block body %}
+    <form action="/" method="post">
+        {{ form.hidden_tag()}}
+        {{ form.product_code.label}} {{ form.product_code(size=20)}}
+        <button type="submit" class = "btn btn-info">{{ form.submit.label}}</button>
+        <!-- <input type="submit" value="Go"> -->
+    </form>
+{% endblock %}

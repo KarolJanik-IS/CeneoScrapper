@@ -35,6 +35,7 @@
             /__init__.py
             /routes.py
             /models.py
+            /forms.py
             /scraper.py
             /analyzer.py
             /static/
